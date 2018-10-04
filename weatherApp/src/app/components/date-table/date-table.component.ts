@@ -35,13 +35,22 @@ export class DateTableComponent implements OnInit {
             this.weatherDate = this.weatherService.getDateTimeDetails(item.dt_txt);
             let itemDate = this.weatherDate.date.concat(' ').concat(this.weatherDate.month);
             this.columnHeaders.includes(itemDate)?noop():this.columnHeaders.push(itemDate);
-            //this.rowHeaders.includes(this.weatherDate.time)?noop():this.rowHeaders.push(this.weatherDate.time);
-            this.rowData.push({'time' : this.weatherDate.time,'item':item, 'date': itemDate});
+            this.rowHeaders.includes(this.weatherDate.time)?noop():this.rowHeaders.push(this.weatherDate.time);
+            this.rowData.push({[itemDate] : [[item]]});
           }
         );
-        //this.rowHeaders = this.rowHeaders.sort();
-        console.log(this.groupBy(this.rowData, 'time'));
-        //console.log(this.rowData);
+        this.rowHeaders = this.rowHeaders.sort();
+        console.log(this.rowData.includes(this.columnHeaders[0]));
+        //this.rowData = this.rowData.sort();
+       /* let rowGroup = this.groupBy(this.rowData, 'date');
+        console.log(rowGroup);
+        this.columnHeaders.forEach(
+          (column, i) => {
+            let tempArray = new Array(this.rowHeaders.length).fill('-');
+            isNullOrUndefined(rowGroup[column]) ?  noop() : this.rowHeaders[column] = rowGroup[column].item;
+          }
+        );*/
+        console.log(this.rowData);
         return isSuccess;
       },
       isFailure => {
